@@ -1,0 +1,66 @@
+project_name: macup
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: macup
+    main: ./main.go
+    binary: macup
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+
+archives:
+  - id: archive
+    builds: [macup]
+    format: tar.gz
+    name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+    files:
+      - LICENSE*
+      - README.md
+
+checksum:
+  name_template: 'checksums.txt'
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+
+brews:
+  - name: macup
+    repository:
+      owner: andmpel
+      name: homebrew-tap
+      branch: main
+    commit_author:
+      name: github-actions
+      email: github-actions@github.com
+    homepage: https://github.com/andmpel/MacOS-All-In-One-Update-Script
+    description: "All-In-One macOS updating tool (Homebrew, VSCode ext, gems, npm, yarn, cargo, App Store, macOS)"
+    license: MIT
+    test: |
+      system "#{bin}/macup", "--version"
+    install: |
+      bin.install "macup"
+
+release:
+  prerelease: auto
+  draft: false
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+env_files:
+  github_token: ~/.config/goreleaser/github_token
