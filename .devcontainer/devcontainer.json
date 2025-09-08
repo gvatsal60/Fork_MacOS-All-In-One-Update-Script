@@ -3,11 +3,12 @@
     "vscode": {
       "extensions": [
         "DavidAnson.vscode-markdownlint",
-        "MindpathTechnologyLimited.code-error-lens",
         "Tyriar.sort-lines",
         "foxundermoon.shell-format",
         "mads-hartmann.bash-ide-vscode",
-        "streetsidesoftware.code-spell-checker"
+        "streetsidesoftware.code-spell-checker",
+        "timonwong.shellcheck",
+        "usernamehw.errorlens"
       ],
       "settings": {
         "[shellscript]": {
@@ -33,7 +34,7 @@
       }
     }
   },
-  "image": "mcr.microsoft.com/devcontainers/base:noble",
+  "image": "mcr.microsoft.com/devcontainers/base:debian",
   "runArgs": [
     "--rm",
     "--name=vsc-${localEnv:USER}-${containerWorkspaceFolderBasename}-${devcontainerId}"
