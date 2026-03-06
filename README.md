@@ -46,7 +46,7 @@ This script currently updates the following:
 - 🍺 **Homebrew** formulas and casks (`brew`)
 - 🧑‍💻 **VSCode** extensions (`code`)
 - 📦 **Node Package Manager** packages (`npm`)
-- 💎 **RubyGems** (`gem`)
+- 💎 **Ruby** gems (`gem`)
 - 🧶 **Yarn** packages (`yarn`)
 - 🚚 **Rust** packages (`cargo`)
 - 🛍 **App Store** applications (`mas`)
