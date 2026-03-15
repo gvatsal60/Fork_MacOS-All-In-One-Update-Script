@@ -72,7 +72,7 @@ update_gem() {
     # Get the path of the `gem` command
     GEM_PATH=$(which gem)
 
-    # Check if the path does not match the expected path
+    # Check to make sure not using the system gem
     if [ "${GEM_PATH}" = "/usr/bin/gem" ]; then
         print_err "gem is not installed."
         return
@@ -98,7 +98,7 @@ update_yarn() {
         return
     fi
 
-    yarn upgrade --latest
+    yarn global upgrade
 }
 
 update_node_pkgs() {
@@ -119,7 +119,7 @@ update_cargo() {
         return
     fi
 
-    cargo install --list | grep -E '^[a-z0-9_-]+ v[0-9.]+:$' | cut -f1 -d' ' | xargs cargo install
+    cargo install-update -a
 }
 
 update_app_store() {
@@ -144,10 +144,10 @@ check_internet() {
     fi
 
     # Check internet connection by pinging a reliable server
-    TEST_URL="https://www.google.com"
+    TEST_URL="https://1.1.1.1"
 
     # Use curl to check the connection
-    TEST_RESP=$(curl -Is --connect-timeout 5 --max-time 10 "${TEST_URL}" 2>/dev/null | head -n 1)
+    TEST_RESP=$(curl -LIs --connect-timeout 5 --max-time 10 "${TEST_URL}" 2>/dev/null)
 
     # Check if response is empty
     if [ -z "${TEST_RESP}" ]; then
@@ -167,7 +167,7 @@ check_internet() {
 update_all() {
     # Check if internet is available
     if ! check_internet; then
-        exit 1
+        return 1
     fi
     update_brew
     update_vscode
